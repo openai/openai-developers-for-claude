@@ -18,6 +18,8 @@ test("docs skill routes OpenAI questions through the public Docs MCP server", ()
   assert.match(skill, /https:\/\/developers\.openai\.com\/mcp/);
   assert.match(skill, /OpenAI Docs MCP/i);
   assert.match(skill, /official OpenAI domains/i);
+  assert.match(skill, /compact, title-like search query of 2-6 essential terms/i);
+  assert.match(skill, /Do not turn the full user question into a keyword list/i);
 });
 
 test("routing descriptions stay sharp for overlapping developer intents", () => {
