@@ -9,10 +9,14 @@ Use the plugin-provided OpenAI Docs MCP server at `https://developers.openai.com
 ## Workflow
 
 1. Use the OpenAI Docs MCP tools exposed by the bundled `openaiDeveloperDocs` server.
-2. Search for the most relevant OpenAI documentation page.
-3. Fetch the exact page or section needed before answering.
-4. Keep the answer concise and cite the official source when the user asks for links, quotes, or precise attribution.
-5. If the MCP server does not return a useful result, fall back only to official OpenAI domains such as `developers.openai.com` and `platform.openai.com`.
+2. Start with a compact, title-like search query of 2-6 essential terms. Do not turn the full user question into a keyword list.
+3. If search is noisy, run a narrower query. If a known official OpenAI docs URL is available, fetch it through Docs MCP before falling back to web search.
+4. For API reference, schema, parameter, or required-field questions, use `get_openapi_spec` when available alongside the relevant guide.
+5. Use `list_openai_docs` only to browse or discover pages when there is no clear query.
+6. For newest, latest, or default-model questions, fetch `https://developers.openai.com/api/docs/guides/latest-model.md` first.
+7. Fetch the exact page or section needed before answering.
+8. Keep the answer concise and cite the official source when the user asks for links, quotes, or precise attribution.
+9. If the MCP server does not return a useful result, fall back only to official OpenAI domains such as `developers.openai.com` and `platform.openai.com`.
 
 ## Use This For
 
