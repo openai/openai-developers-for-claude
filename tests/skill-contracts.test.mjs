@@ -109,9 +109,18 @@ test("implementation skills defer to the credential gate before API-backed work"
   }
 });
 
-test("README documents install, plugin contents, and local validation", () => {
+test("README documents Claude app marketplace installation", () => {
   const readme = read("README.md");
 
+  assert.match(readme, /In the Claude app/);
+  assert.match(readme, /Settings/);
+  assert.match(readme, /Plugins/);
+  assert.match(readme, /Add Marketplace/);
+  assert.match(readme, /Add from a repository/);
+  assert.match(readme, /https:\/\/github\.com\/openai\/openai-developers-for-claude/);
+  assert.match(readme, /Sync/);
+  assert.match(readme, /Install/);
+  assert.doesNotMatch(readme, /openai-developers-for-claude\.git/);
   assert.match(readme, /\/plugin marketplace add openai\/openai-developers-for-claude/);
   assert.match(readme, /\/plugin install openai-developers@openai-developers/);
   assert.match(readme, /\.claude-plugin\/marketplace\.json/);
