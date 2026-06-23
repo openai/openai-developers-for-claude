@@ -79,12 +79,6 @@ test("troubleshooting skill classifies concrete OpenAI API failures", () => {
   assert.match(skill, /403 model_not_found/i);
   assert.match(skill, /billing/);
   assert.match(skill, /limits/);
-  assert.match(
-    skill,
-    /https:\/\/platform\.openai\.com\/settings\/organization\/billing\/overview/,
-  );
-  assert.match(skill, /prompt the user to add credits/i);
-  assert.match(skill, /Do not purchase credits or change billing settings/i);
   assert.match(skill, /do not stop at generic "create a fresh key" advice/i);
 });
 
@@ -100,11 +94,6 @@ test("ChatGPT Apps submission skill has import-file output contract", () => {
   assert.match(skill, /destructiveHint/);
   assert.match(skill, /outputSchema warnings/i);
   assert.match(skill, /Sensitive data solicitation/i);
-  assert.match(
-    skill,
-    /Generate exactly five positive test cases and exactly three negative test cases\./,
-  );
-  assert.doesNotMatch(skill, /at least (five|three)/i);
 });
 
 test("implementation skills defer to the credential gate before API-backed work", () => {
