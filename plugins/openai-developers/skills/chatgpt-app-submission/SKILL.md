@@ -59,7 +59,7 @@ If tool names, descriptions, or CSP values are missing or inconsistent with beha
 
 ## Test Case Rules
 
-Generate at least five positive test cases and at least three negative test cases.
+Generate exactly five positive test cases and exactly three negative test cases.
 
 - Positive test cases must use exact MCP action names in `tools_triggered`.
 - Positive prompts should cover the main tool-backed workflows and edge conditions that review should exercise.

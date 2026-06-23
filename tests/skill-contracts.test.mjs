@@ -94,6 +94,11 @@ test("ChatGPT Apps submission skill has import-file output contract", () => {
   assert.match(skill, /destructiveHint/);
   assert.match(skill, /outputSchema warnings/i);
   assert.match(skill, /Sensitive data solicitation/i);
+  assert.match(
+    skill,
+    /Generate exactly five positive test cases and exactly three negative test cases\./,
+  );
+  assert.doesNotMatch(skill, /at least (five|three)/i);
 });
 
 test("implementation skills defer to the credential gate before API-backed work", () => {
