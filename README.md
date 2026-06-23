@@ -16,7 +16,16 @@ This plugin is the Claude Code-facing bundle for OpenAI developer workflows. It 
 
 ## Install
 
-In Claude Code:
+In the Claude app:
+
+1. Open **Settings**, then select **Plugins**.
+2. Select **Add** in the top-right corner, then choose **Add Marketplace**.
+3. In the modal, select **Add from a repository**.
+4. Enter `https://github.com/openai/openai-developers-for-claude`. The URL does not need a `.git` suffix.
+5. Select **Sync**.
+6. When **OpenAI Developers** appears, open it and select **Install**.
+
+Alternatively, install from Claude Code:
 
 ```text
 /plugin marketplace add openai/openai-developers-for-claude

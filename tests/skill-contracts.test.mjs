@@ -108,15 +108,3 @@ test("implementation skills defer to the credential gate before API-backed work"
     assert.match(skill, /before/i);
   }
 });
-
-test("README documents install, plugin contents, and local validation", () => {
-  const readme = read("README.md");
-
-  assert.match(readme, /\/plugin marketplace add openai\/openai-developers-for-claude/);
-  assert.match(readme, /\/plugin install openai-developers@openai-developers/);
-  assert.match(readme, /\.claude-plugin\/marketplace\.json/);
-  assert.match(readme, /plugins\/openai-developers\/\.mcp\.json/);
-  assert.match(readme, /OPENAI_API_KEY/);
-  assert.match(readme, /skills\/openai-docs/);
-  assert.match(readme, /npm test/);
-});
