@@ -79,6 +79,12 @@ test("troubleshooting skill classifies concrete OpenAI API failures", () => {
   assert.match(skill, /403 model_not_found/i);
   assert.match(skill, /billing/);
   assert.match(skill, /limits/);
+  assert.match(
+    skill,
+    /https:\/\/platform\.openai\.com\/settings\/organization\/billing\/overview/,
+  );
+  assert.match(skill, /prompt the user to add credits/i);
+  assert.match(skill, /Do not purchase credits or change billing settings/i);
   assert.match(skill, /do not stop at generic "create a fresh key" advice/i);
 });
 

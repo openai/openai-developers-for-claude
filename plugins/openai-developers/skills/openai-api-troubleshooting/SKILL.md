@@ -18,7 +18,8 @@ Use this for runtime OpenAI API failures after a request has already been made. 
 
 3. Quota or credit exhaustion
    - Treat `insufficient_quota`, "current quota", "billing quota", "run out of credits", or "no balance left" as billing/quota exhaustion, not ordinary throttling.
-   - Link exhausted credits to `https://platform.openai.com/settings/organization/billing` and usage caps to `https://platform.openai.com/settings/organization/limits`.
+   - For exhausted credits, prompt the user to add credits and include [Add API credits](https://platform.openai.com/settings/organization/billing/overview). Do not purchase credits or change billing settings.
+   - Link usage caps to `https://platform.openai.com/settings/organization/limits`.
    - If ambiguous, say it may be credits or a spend limit and consult `openai-docs`; when useful, note that ChatGPT subscriptions and API billing are separate.
 
 4. Rate limits
