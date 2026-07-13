@@ -8,7 +8,7 @@ Use the plugin-provided OpenAI Docs MCP server at `https://developers.openai.com
 
 ## API Key Setup
 
-For requests that require a live OpenAI API call, use `openai-platform-api-key` first when available. Missing credentials block only the live call. They do not block requested source or configuration edits, documentation retrieval, or offline, mocked, static, fixture-based, or syntax validation.
+For model and prompt migrations, missing credentials block only the live call. They do not block requested migration source or configuration edits, documentation retrieval, or offline, mocked, static, fixture-based, or syntax validation. For other requests to build, run, configure, debug, or implement API-backed functionality, use `openai-platform-api-key` first when available.
 
 Use this skill directly for docs-only questions, citations, model/API guidance, and examples that do not require a live API call.
 
@@ -21,7 +21,7 @@ Before inspecting a repository or checking API credentials, classify the model t
 - **Latest/current/newest/recommended/default/flagship/unspecified target:** fetch `https://developers.openai.com/api/docs/guides/latest-model.md` through Docs MCP. Read its `latestModelInfo` block and follow the exact `migrationGuide` and `promptingGuide` URLs it provides. Do not infer those URLs or the current model.
 - **Explicitly named target:** preserve that model and fetch `https://developers.openai.com/api/docs/guides/latest-model?model=<requested-model>` through Docs MCP. For example, use `?model=gpt-5.6` or `?model=gpt-5.3-codex`. Do not substitute the current model or guidance for a different model.
 
-If a requested page is unavailable, contains only a title or no substantive body, retry the exact URL once through Docs MCP, then use a focused Docs MCP search for the same official guide. If the guide still cannot be retrieved, search only official OpenAI domains such as `developers.openai.com` and `platform.openai.com`. If that also fails, state what could not be verified and return bounded uncertainty. Never use bundled or remembered model facts as a fallback.
+If a requested page is unavailable, contains only a title or no substantive body, retry the exact URL once through Docs MCP, then use a focused Docs MCP search for the same official guide. If the guide still cannot be retrieved, search only official OpenAI domains such as `developers.openai.com` and `platform.openai.com`. Do not widen to Slack, internal docs, private repositories, or historical launch artifacts. If official sources also fail, state what could not be verified and return bounded uncertainty. Never use bundled or remembered model facts as a fallback.
 
 ## Source Priority
 

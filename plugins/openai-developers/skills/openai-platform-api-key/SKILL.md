@@ -1,5 +1,5 @@
 ---
-description: 'Use when Claude Code is asked to build, run, test, debug, or configure an OpenAI-backed or provider-unspecified AI app, UI, script, CLI, generator, or tool, especially requests phrased only as "using AI" or generators driven by forms/user input; also use for OPENAI_API_KEY or sk-proj setup. Treat this as the credential gate: inspect safely, ask reuse-vs-new before API work, guide manual local setup when needed, verify presence, and never expose plaintext.'
+description: 'Use when Claude Code is asked to build, run, test, debug, or configure an OpenAI-backed or provider-unspecified AI app, UI, script, CLI, generator, or tool, especially requests phrased only as "using AI" or generators driven by forms/user input; also use for OPENAI_API_KEY or sk-proj setup. Do not gate model or prompt migrations that can proceed with source edits and offline validation. Otherwise treat this as the credential gate: inspect safely, ask reuse-vs-new before API work, guide manual local setup when needed, verify presence, and never expose plaintext.'
 ---
 
 # OpenAI API Key Setup
@@ -24,16 +24,17 @@ Do not use it when:
 - The user asks for a static frontend, visual mockup, design concept, or placeholder UI with no API-backed behavior.
 - The user only asks Claude Code to write a one-off output directly and no app, script, generator, or API-backed tool is being built or run.
 - The user names a different AI provider for the artifact.
+- The user asks to migrate or update an existing OpenAI model or prompts and the work can proceed through source or configuration edits plus offline, mocked, static, fixture-based, or syntax validation. Use this skill later only if a live API request is actually needed.
 
 If API access is needed and no usable key is found, guide the user through manual local setup instead of leaving placeholder docs or incomplete setup steps.
 
 ## Coordination With Implementation Skills
 
-When another implementation skill also applies, run this skill first only to inspect credentials safely and send the credential decision message. Until reuse-existing-key vs create-new-key is resolved, it outranks design-first and implementation-first flows; do not design UI, choose architecture, inspect API examples, write code, or run smoke tests. After the user answers, hand off to the appropriate implementation or docs skill.
+When another implementation skill also applies, run this skill first only to inspect credentials safely and send the credential decision message. Until reuse-existing-key vs create-new-key is resolved, it outranks design-first and implementation-first flows; do not design UI, choose architecture, inspect API examples, write code, or run smoke tests. Model and prompt migrations are the narrow exception above: complete requested source/configuration edits and offline validation without a credential decision, then use this skill only before any live API request. After the user answers, hand off to the appropriate implementation or docs skill.
 
 ## Mandatory First Step
 
-Before editing, testing, running, debugging, or configuring any code that calls the OpenAI API:
+Before editing, testing, running, debugging, or configuring any code that calls the OpenAI API, except for the model/prompt migration source edits and offline validation explicitly allowed above:
 
 1. Inspect for a usable `OPENAI_API_KEY` without printing it.
 2. Unless the user explicitly asked for a new key, ask whether to reuse an existing key or create a new one. If none exists, ask whether they want to create one manually.
@@ -48,7 +49,7 @@ This applies even if:
 
 Finding an existing key is not permission to proceed. It only changes the question you ask.
 
-The credential decision is a hard stop. Before the user answers, do not create directories, scaffold files, draft implementation plans, wire API-dependent code, run smoke tests, or give placeholder key setup instructions. The only allowed pre-gate work is safe repo convention discovery and credential presence checks that do not print secrets.
+The credential decision is a hard stop outside the model/prompt migration exception above. Before the user answers, do not create directories, scaffold files, draft implementation plans, wire API-dependent code, run smoke tests, or give placeholder key setup instructions. The only allowed pre-gate work is safe repo convention discovery and credential presence checks that do not print secrets.
 
 ## Credential Decision Messages
 
