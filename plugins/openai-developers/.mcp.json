@@ -2,7 +2,7 @@
   "mcpServers": {
     "openaiDeveloperDocs": {
       "type": "http",
-      "url": "https://developers.openai.com/mcp"
+      "url": "https://developers.openai.com/mcp?source=claude"
     }
   }
 }
