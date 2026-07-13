@@ -37,6 +37,8 @@ test("docs skill routes latest-model changes without overriding explicit targets
   assert.match(skill, /latestModelInfo/);
   assert.match(skill, /return bounded uncertainty/i);
   assert.match(skill, /Do not infer the latest model from bundled static data/i);
+  assert.match(skill, /Missing credentials block only the live call/i);
+  assert.match(skill, /Do not derive another URL, substitute latest-model guidance, or use guidance for a different model/i);
   assert.doesNotMatch(skill, /references\/latest-model\.md/);
   assert.match(skill, /Do not collapse a multi-model router or picker/i);
   assert.match(skill, /historical docs, examples, eval baselines, fixtures/i);

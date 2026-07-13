@@ -8,11 +8,11 @@ Use the plugin-provided OpenAI Docs MCP server at `https://developers.openai.com
 
 ## API Key Setup
 
-For requests to build, run, configure, debug, or implement an API-backed artifact, use `openai-platform-api-key` before implementation when available. After that credential gate is resolved, return here for current docs as needed.
+For requests that require a live OpenAI API call, use `openai-platform-api-key` first when available. Missing credentials block only the live call. They do not block requested source or configuration edits, documentation retrieval, or offline, mocked, static, fixture-based, or syntax validation.
 
 Use this skill directly for docs-only questions, citations, model/API guidance, and examples that do not require building or running an API-backed artifact.
 
-For latest/current/default/unspecified model migration or prompting-guidance requests, complete the read-only latest-model resolver and guide fetch before the API-key credential gate. The credential gate still blocks edits, tests, and API-backed implementation until resolved; it does not block read-only retrieval of current guidance.
+For latest/current/default/unspecified model migration or prompting-guidance requests, complete the read-only latest-model resolver and guide fetch before any live-call credential check. Continue with requested source edits and offline validation even when no API key is available; skip only validation that actually sends a live API request, and say that it was skipped.
 
 ## First Action for Latest-Model Requests
 
@@ -21,7 +21,7 @@ Before inspecting a repository or checking API credentials, classify the request
 - **Latest/current prompting guidance, or change requested with a latest/current/newest/recommended/default/flagship/unspecified target:** immediately run the resolver below and inspect its JSON output. This includes changing prompts, model pickers, model references, SDK integrations, replacing an older named model with “the current model,” or asking which model to migrate to. Do not directly fetch `latest-model.md` for this branch.
 - **Pure model-selection question only, with no prompting guidance or requested change:** directly fetch `https://developers.openai.com/api/docs/guides/latest-model.md`; do not run the resolver.
 - **Change requested with an explicit target model:** preserve that target and do not run the resolver. For an explicit GPT-5.6 Sol or GPT-5.6-family migration, fetch the live GPT-5.6 model-guidance page and read `references/upgrading-to-gpt-5p6-sol.md` for migration judgment.
-- **Prompting or migration guidance for an explicitly named GPT-5-family model:** fetch `https://developers.openai.com/api/docs/guides/model-guidance?model=<requested-model>` through Docs MCP and extract the relevant migration section or `## Prompting Best Practices` through the next H2 heading. Do not substitute latest-model guidance.
+- **Prompting or migration guidance for an explicitly named GPT-5-family model:** fetch `https://developers.openai.com/api/docs/guides/model-guidance?model=<requested-model>` through Docs MCP and extract the relevant migration section or `## Prompting Best Practices` through the next H2 heading. If that exact route remains unavailable after one focused retry or official-domain fallback, say that the official model-specific guide could not be retrieved. Do not derive another URL, substitute latest-model guidance, or use guidance for a different model.
 
 Run the resolver without relying on filesystem executable bits:
 
@@ -43,7 +43,7 @@ Do not suppress or redirect resolver stdout. Success requires JSON containing `m
 7. Preserve explicit targets. If the user asks for a model such as GPT-5.4, keep that target even when current docs name a newer model; mention newer guidance only as optional.
 8. Treat resolver-returned migration and prompting guide URLs as opaque. Fetch those exact URLs directly; do not derive, substitute, or append a model query.
 9. If a prompting URL resolves to a combined model-guidance page, extract only `## Prompting Best Practices` through the next H2 heading.
-10. If a guide contains only a title or no substantive body, retry the exact markdown URL through Docs MCP or official-domain search. If that also fails, use the matching bundled reference and disclose the fallback.
+10. If a guide contains only a title or no substantive body, retry the exact markdown URL through Docs MCP or official-domain search. If that also fails, use a bundled fallback only when it matches the same requested model or resolved model family, and disclose the fallback. Otherwise return bounded uncertainty.
 11. If Docs MCP remains unhelpful, fall back only to official OpenAI domains such as `developers.openai.com` and `platform.openai.com`.
 
 ## Model Upgrade Workflow
