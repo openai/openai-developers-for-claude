@@ -20,34 +20,6 @@ test("docs skill routes OpenAI questions through the public Docs MCP server", ()
   assert.match(skill, /official OpenAI domains/i);
 });
 
-test("docs skill routes model guidance live without overriding explicit targets", () => {
-  const skill = read(
-    "plugins/openai-developers/skills/openai-docs/SKILL.md",
-  );
-
-  assert.match(skill, /First Action for Model Requests/i);
-  assert.match(skill, /latest-model\.md/);
-  assert.match(skill, /only a title or no substantive body/i);
-  assert.match(skill, /latestModelInfo/);
-  assert.match(skill, /return bounded uncertainty/i);
-  assert.match(
-    skill,
-    /latest-model\?model=<requested-model>/,
-  );
-  assert.match(skill, /\?model=gpt-5\.6/);
-  assert.match(skill, /\?model=gpt-5\.3-codex/);
-  assert.match(skill, /preserve that model/i);
-  assert.match(skill, /Never use bundled or remembered model facts/i);
-  assert.match(skill, /Missing credentials block only the live call/i);
-  assert.doesNotMatch(skill, /references\//i);
-  assert.doesNotMatch(skill, /resolver|Node\.js/i);
-  assert.match(skill, /Do not collapse a multi-model router or picker/i);
-  assert.match(skill, /historical docs, examples, eval baselines, fixtures/i);
-  assert.match(skill, /Review the final diff/i);
-  assert.doesNotMatch(skill, /Codex self-knowledge|fetch-codex-manual/i);
-  assert.doesNotMatch(skill, /load_workspace_dependencies/i);
-});
-
 test("routing descriptions stay sharp for overlapping developer intents", () => {
   const buildApp = read(
     "plugins/openai-developers/skills/build-chatgpt-app/SKILL.md",

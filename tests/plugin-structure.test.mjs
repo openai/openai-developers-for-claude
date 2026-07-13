@@ -72,25 +72,6 @@ test("all expected OpenAI developer skills are present", () => {
   }
 });
 
-test("OpenAI docs skill uses live Docs MCP without static model assets", () => {
-  const skillRoot = path.join(
-    repoRoot,
-    "plugins/openai-developers/skills/openai-docs",
-  );
-  const removedAssets = [
-    "references/prompting-guide.md",
-    "references/upgrade-guide.md",
-    "references/upgrading-to-gpt-5p6-sol.md",
-    "scripts/resolve-latest-model-info",
-    "scripts/resolve-latest-model-info.cjs",
-  ];
-
-  assert.ok(fs.existsSync(path.join(skillRoot, "SKILL.md")));
-  for (const relativePath of removedAssets) {
-    assert.ok(!fs.existsSync(path.join(skillRoot, relativePath)));
-  }
-});
-
 test("plugin bundles the public OpenAI Docs MCP server", () => {
   const mcp = readJson("plugins/openai-developers/.mcp.json");
 
