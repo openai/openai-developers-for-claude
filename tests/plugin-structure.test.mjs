@@ -72,20 +72,22 @@ test("all expected OpenAI developer skills are present", () => {
   }
 });
 
-test("OpenAI docs skill bundles current-model routing assets", () => {
-  const expected = [
-    "plugins/openai-developers/skills/openai-docs/references/prompting-guide.md",
-    "plugins/openai-developers/skills/openai-docs/references/upgrade-guide.md",
-    "plugins/openai-developers/skills/openai-docs/references/upgrading-to-gpt-5p6-sol.md",
-    "plugins/openai-developers/skills/openai-docs/scripts/resolve-latest-model-info",
-    "plugins/openai-developers/skills/openai-docs/scripts/resolve-latest-model-info.cjs",
+test("OpenAI docs skill uses live Docs MCP without static model assets", () => {
+  const skillRoot = path.join(
+    repoRoot,
+    "plugins/openai-developers/skills/openai-docs",
+  );
+  const removedAssets = [
+    "references/prompting-guide.md",
+    "references/upgrade-guide.md",
+    "references/upgrading-to-gpt-5p6-sol.md",
+    "scripts/resolve-latest-model-info",
+    "scripts/resolve-latest-model-info.cjs",
   ];
 
-  for (const relativePath of expected) {
-    assert.ok(
-      fs.existsSync(path.join(repoRoot, relativePath)),
-      `${relativePath} should exist`,
-    );
+  assert.ok(fs.existsSync(path.join(skillRoot, "SKILL.md")));
+  for (const relativePath of removedAssets) {
+    assert.ok(!fs.existsSync(path.join(skillRoot, relativePath)));
   }
 });
 
