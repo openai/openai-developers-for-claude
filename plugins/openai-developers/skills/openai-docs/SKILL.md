@@ -28,7 +28,7 @@ Run the resolver without relying on filesystem executable bits:
 - POSIX shells: `sh <skill-dir>/scripts/resolve-latest-model-info`
 - Windows: run the CommonJS implementation with Node.js 18 or newer: `node <skill-dir>\scripts\resolve-latest-model-info.cjs`
 
-The wrapper looks for a compatible runtime in `$NODE`, `PATH`, and common system install locations. If no Node.js 18+ runtime is available, fetch `latest-model.md` through Docs MCP, read its `latestModelInfo` block, resolve the listed migration and prompting paths against `https://developers.openai.com`, and continue with those exact URLs. Use bundled static references only if that live metadata fallback also fails, and disclose the fallback.
+The wrapper looks for a compatible runtime in `$NODE`, `PATH`, and common system install locations. If no Node.js 18+ runtime is available, fetch `latest-model.md` through Docs MCP, read its `latestModelInfo` block, resolve the listed migration and prompting paths against `https://developers.openai.com`, and continue with those exact URLs. If live current-model metadata still cannot be retrieved, state that the current model cannot be verified and return bounded uncertainty. Do not infer the latest model from bundled static data.
 
 Do not suppress or redirect resolver stdout. Success requires JSON containing `model`, `migrationGuideUrl`, and `promptingGuideUrl`. If the command exits without all three fields, run it once more before falling back.
 
@@ -39,7 +39,7 @@ Do not suppress or redirect resolver stdout. Success requires JSON containing `m
 3. Fetch the relevant page before answering. If search is noisy, run a narrower query. If a plausible official OpenAI docs URL is available, fetch it through Docs MCP before relying on web search.
 4. For API reference, schema, parameter, or required-field questions, use `get_openapi_spec` when available alongside the relevant guide.
 5. Use `list_openai_docs` only to browse or discover pages when there is no clear query.
-6. For pure latest/current/default model-selection questions, fetch `https://developers.openai.com/api/docs/guides/latest-model.md` first. If unavailable, use `references/latest-model.md`.
+6. For pure latest/current/default model-selection questions, fetch `https://developers.openai.com/api/docs/guides/latest-model.md` first. If it remains unavailable after one focused retry or official-domain fallback, state that the current model cannot be verified.
 7. Preserve explicit targets. If the user asks for a model such as GPT-5.4, keep that target even when current docs name a newer model; mention newer guidance only as optional.
 8. Treat resolver-returned migration and prompting guide URLs as opaque. Fetch those exact URLs directly; do not derive, substitute, or append a model query.
 9. If a prompting URL resolves to a combined model-guidance page, extract only `## Prompting Best Practices` through the next H2 heading.
@@ -53,7 +53,7 @@ Do not suppress or redirect resolver stdout. Success requires JSON containing `m
    - For pure selection, fetch `latest-model.md` and prefer its explicit migration or prompting links over derived URLs.
    - For dynamic prompting or upgrades, run the resolver first, then fetch both returned guide URLs exactly.
    - For explicit named targets, preserve the requested model and fetch that model's current guidance.
-   - If remote retrieval fails or returns title-only content, use the bundled fallback and say so.
+   - If model-specific migration or prompting guidance fails or returns title-only content, use the matching bundled fallback and say so. If current-model metadata cannot be resolved, return bounded uncertainty instead of guessing.
 3. Keep upgrades behavior-preserving and scoped. Update active OpenAI API model defaults, directly related prompts, and only the registries, routing, pricing, capability, or picker surfaces placed in scope.
 4. Leave historical docs, examples, eval baselines, fixtures, provider comparisons, intentionally pinned fallbacks, and ambiguous older usage unchanged unless explicitly requested. Do not collapse a multi-model router or picker into one flagship model; preserve cost, latency, and quality roles.
 5. Keep SDK, tooling, IDE, plugin, shell, auth, and provider-environment migrations out of a model-and-prompt upgrade unless explicitly requested.
@@ -75,7 +75,6 @@ For a model or prompt upgrade:
 Read only what the request needs:
 
 - `https://developers.openai.com/api/docs/guides/latest-model.md` — current model selection and best/latest/current model questions.
-- `references/latest-model.md` — bundled fallback for model selection.
 - `references/upgrade-guide.md` — bundled routing fallback for upgrade planning.
 - `references/upgrading-to-gpt-5p6-sol.md` — GPT-5.6 Sol/family migration judgment, compatibility gates, optional feature boundaries, and validation.
 - `references/prompting-guide.md` — bundled GPT-5.6 prompting fallback and live Prompting Best Practices extraction contract.

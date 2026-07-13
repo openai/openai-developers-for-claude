@@ -74,7 +74,6 @@ test("all expected OpenAI developer skills are present", () => {
 
 test("OpenAI docs skill bundles current-model routing assets", () => {
   const expected = [
-    "plugins/openai-developers/skills/openai-docs/references/latest-model.md",
     "plugins/openai-developers/skills/openai-docs/references/prompting-guide.md",
     "plugins/openai-developers/skills/openai-docs/references/upgrade-guide.md",
     "plugins/openai-developers/skills/openai-docs/references/upgrading-to-gpt-5p6-sol.md",

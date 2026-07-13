@@ -35,6 +35,9 @@ test("docs skill routes latest-model changes without overriding explicit targets
   assert.match(skill, /only a title or no substantive body/i);
   assert.match(skill, /If no Node\.js 18\+ runtime is available/i);
   assert.match(skill, /latestModelInfo/);
+  assert.match(skill, /return bounded uncertainty/i);
+  assert.match(skill, /Do not infer the latest model from bundled static data/i);
+  assert.doesNotMatch(skill, /references\/latest-model\.md/);
   assert.match(skill, /Do not collapse a multi-model router or picker/i);
   assert.match(skill, /historical docs, examples, eval baselines, fixtures/i);
   assert.match(skill, /Review the final diff/i);
