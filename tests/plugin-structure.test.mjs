@@ -72,6 +72,24 @@ test("all expected OpenAI developer skills are present", () => {
   }
 });
 
+test("OpenAI docs skill bundles current-model routing assets", () => {
+  const expected = [
+    "plugins/openai-developers/skills/openai-docs/references/latest-model.md",
+    "plugins/openai-developers/skills/openai-docs/references/prompting-guide.md",
+    "plugins/openai-developers/skills/openai-docs/references/upgrade-guide.md",
+    "plugins/openai-developers/skills/openai-docs/references/upgrading-to-gpt-5p6-sol.md",
+    "plugins/openai-developers/skills/openai-docs/scripts/resolve-latest-model-info",
+    "plugins/openai-developers/skills/openai-docs/scripts/resolve-latest-model-info.cjs",
+  ];
+
+  for (const relativePath of expected) {
+    assert.ok(
+      fs.existsSync(path.join(repoRoot, relativePath)),
+      `${relativePath} should exist`,
+    );
+  }
+});
+
 test("plugin bundles the public OpenAI Docs MCP server", () => {
   const mcp = readJson("plugins/openai-developers/.mcp.json");
 

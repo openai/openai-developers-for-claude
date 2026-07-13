@@ -7,7 +7,9 @@ This plugin is the Claude Code-facing bundle for OpenAI developer workflows. It 
 - `.claude-plugin/marketplace.json` declares the Claude Code plugin marketplace metadata.
 - `plugins/openai-developers/.claude-plugin/plugin.json` declares the `OpenAI Developers` plugin metadata.
 - `plugins/openai-developers/.mcp.json` bundles the public OpenAI Docs MCP server.
-- `plugins/openai-developers/skills/openai-docs/` routes OpenAI product, API, model, and SDK questions through OpenAI documentation.
+- `plugins/openai-developers/skills/openai-docs/` routes OpenAI product, API, model, SDK, prompting, and model-upgrade questions through OpenAI documentation.
+  - `references/` provides bundled model-selection, prompting, and migration fallbacks when current docs cannot be fetched.
+  - `scripts/resolve-latest-model-info*` resolves current model, migration-guide, and prompting-guide metadata from the live latest-model page.
 - `plugins/openai-developers/skills/openai-platform-api-key/` guides local `OPENAI_API_KEY` setup for API-backed work.
 - `plugins/openai-developers/skills/openai-api-troubleshooting/` classifies common runtime API failures and routes users to the right next step.
 - `plugins/openai-developers/skills/agents-sdk/` helps plan and build Agents SDK applications.

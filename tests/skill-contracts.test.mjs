@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
@@ -18,6 +20,111 @@ test("docs skill routes OpenAI questions through the public Docs MCP server", ()
   assert.match(skill, /https:\/\/developers\.openai\.com\/mcp/);
   assert.match(skill, /OpenAI Docs MCP/i);
   assert.match(skill, /official OpenAI domains/i);
+});
+
+test("docs skill routes latest-model changes without overriding explicit targets", () => {
+  const skill = read(
+    "plugins/openai-developers/skills/openai-docs/SKILL.md",
+  );
+
+  assert.match(skill, /First Action for Latest-Model Requests/i);
+  assert.match(skill, /immediately run the resolver/i);
+  assert.match(skill, /Pure model-selection question only/i);
+  assert.match(skill, /preserve that target and do not run the resolver/i);
+  assert.match(skill, /Fetch those exact URLs directly/i);
+  assert.match(skill, /only a title or no substantive body/i);
+  assert.match(skill, /If no Node\.js 18\+ runtime is available/i);
+  assert.match(skill, /latestModelInfo/);
+  assert.match(skill, /Do not collapse a multi-model router or picker/i);
+  assert.match(skill, /historical docs, examples, eval baselines, fixtures/i);
+  assert.match(skill, /Review the final diff/i);
+  assert.doesNotMatch(skill, /Codex self-knowledge|fetch-codex-manual/i);
+  assert.doesNotMatch(skill, /load_workspace_dependencies/i);
+});
+
+test("latest-model resolver handles a local temporary fixture", () => {
+  const tempDir = fs.mkdtempSync(
+    path.join(os.tmpdir(), "openai-docs-resolver-"),
+  );
+  const fixturePath = path.join(tempDir, "latest-model.md");
+  const resolver = path.join(
+    repoRoot,
+    "plugins/openai-developers/skills/openai-docs/scripts/resolve-latest-model-info.cjs",
+  );
+  const wrapper = path.join(
+    repoRoot,
+    "plugins/openai-developers/skills/openai-docs/scripts/resolve-latest-model-info",
+  );
+
+  fs.writeFileSync(
+    fixturePath,
+    [
+      "---",
+      "latestModelInfo:",
+      "  model: gpt-9.1",
+      "  migrationGuide: /api/docs/guides/migrate-to-gpt-9-1.md",
+      "  promptingGuide: /api/docs/guides/gpt-9-1-prompting.md",
+      "---",
+      "",
+    ].join("\n"),
+  );
+
+  const expected = {
+    model: "gpt-9.1",
+    modelSlug: "gpt-9p1",
+    migrationGuideUrl:
+      "https://developers.openai.com/api/docs/guides/migrate-to-gpt-9-1.md",
+    promptingGuideUrl:
+      "https://developers.openai.com/api/docs/guides/gpt-9-1-prompting.md",
+  };
+
+  try {
+    const direct = JSON.parse(
+      execFileSync(
+        process.execPath,
+        [
+          resolver,
+          "--source",
+          fixturePath,
+          "--base-url",
+          "https://developers.openai.com",
+        ],
+        { encoding: "utf8" },
+      ),
+    );
+    assert.deepEqual(direct, expected);
+    if (process.platform !== "win32") {
+      const wrapped = JSON.parse(
+        execFileSync(
+          "sh",
+          [
+            wrapper,
+            "--source",
+            fixturePath,
+            "--base-url",
+            "https://developers.openai.com",
+          ],
+          {
+            encoding: "utf8",
+            env: { ...process.env, NODE: process.execPath },
+          },
+        ),
+      );
+      assert.deepEqual(wrapped, expected);
+    }
+  } finally {
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
+});
+
+test("latest-model wrapper has no Codex-only runtime assumptions", () => {
+  const wrapper = read(
+    "plugins/openai-developers/skills/openai-docs/scripts/resolve-latest-model-info",
+  );
+
+  assert.doesNotMatch(wrapper, /codex-runtimes|codex-primary-runtime/i);
+  assert.match(wrapper, /\$\{NODE:-\}/);
+  assert.match(wrapper, /command -v node/);
 });
 
 test("routing descriptions stay sharp for overlapping developer intents", () => {
