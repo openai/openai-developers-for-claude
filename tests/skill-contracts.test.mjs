@@ -54,6 +54,7 @@ test("API key skill uses manual local setup and does not claim automatic key cre
   assert.match(skill, /\.env\.local/);
   assert.match(skill, /reuse an existing key/i);
   assert.match(skill, /manual setup/i);
+  assert.match(skill, /Do not gate model or prompt migrations/i);
   assert.match(skill, /After sending the credential decision message, stop until the user answers/i);
   assert.match(skill, /do not create directories, scaffold files, draft implementation plans/i);
   assert.match(
