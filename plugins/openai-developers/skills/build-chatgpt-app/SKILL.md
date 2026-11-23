@@ -1,4 +1,5 @@
 ---
+name: build-chatgpt-app
 description: Use when the user explicitly wants a ChatGPT App, Apps SDK project, MCP server plus widget UI, ChatGPT-compatible tool UI, or submission/deployment work for that surface. Build, scaffold, refactor, or troubleshoot those projects from Claude Code, consult openai-docs before generating code, and use openai-platform-api-key before any app path that requires live OpenAI API credentials.
 ---
 

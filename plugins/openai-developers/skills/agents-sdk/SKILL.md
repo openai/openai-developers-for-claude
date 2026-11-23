@@ -1,4 +1,5 @@
 ---
+name: agents-sdk
 description: Use when the user wants to build, adapt, run, or evaluate an OpenAI Agents SDK app from Claude Code. Prefer a docs-first workflow and route API credential decisions through openai-platform-api-key before API-backed work.
 ---
 
