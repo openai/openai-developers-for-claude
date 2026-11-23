@@ -1,4 +1,5 @@
 ---
+name: chatgpt-app-submission
 description: Use when a developer needs a ChatGPT Apps submission import file from an MCP server. Inspect the implementation, generate chatgpt-app-submission.json with app info, tool-hint justifications, positive and negative test cases, then report review findings and outputSchema warnings.
 ---
 

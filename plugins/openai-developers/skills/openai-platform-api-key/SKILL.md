@@ -1,4 +1,5 @@
 ---
+name: openai-platform-api-key
 description: 'Use when Claude Code is asked to build, run, test, debug, or configure an OpenAI-backed or provider-unspecified AI app, UI, script, CLI, generator, or tool, especially requests phrased only as "using AI" or generators driven by forms/user input; also use for OPENAI_API_KEY or sk-proj setup. Do not gate model or prompt migrations that can proceed with source edits and offline validation. Otherwise treat this as the credential gate: inspect safely, ask reuse-vs-new before API work, guide manual local setup when needed, verify presence, and never expose plaintext.'
 ---
 

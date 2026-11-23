@@ -1,4 +1,5 @@
 ---
+name: openai-docs
 description: Use whenever the user asks anything about OpenAI products, APIs, models, or SDKs — including factual lookups, coding requests, latest/current/default model selection, prompting guidance, model upgrades, and citation requests. Invoke before calling any openaiDeveloperDocs MCP tool.
 ---
 

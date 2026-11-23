@@ -1,4 +1,5 @@
 ---
+name: openai-api-troubleshooting
 description: Use when an OpenAI API request fails or the user asks what an error means, including blocked access to api.openai.com, 401 invalid_api_key, missing OPENAI_API_KEY, 429 insufficient_quota, 429 rate_limit_exceeded, or 403 model_not_found. Classify the failure, name the next step, route credential setup to openai-platform-api-key, and current guidance to openai-docs.
 ---
 
